@@ -1,0 +1,80 @@
+/**
+/**
+ * A simple theme for reveal.js presentations, similar
+ * to the default theme. The accent color is darkblue.
+ *
+ * This theme is Copyright (C) 2012 Owen Versteeg, https://github.com/StereotypicalApps. It is MIT licensed.
+ * reveal.js is Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+
+// Include theme-specific fonts
+@import url(https://fonts.googleapis.com/css?family=News+Cycle:400,700);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
+
+
+// Override theme settings (see ../template/settings.scss)
+$mainFont: 'Calibri', sans-serif;
+$mainColor: #000;
+$headingFont: 'Calibri', Impact, sans-serif;
+$headingColor: #00539F;
+$headingTextShadow: none;
+$headingTextTransform: none;
+$backgroundColor: #fff;
+$linkColor: #00008B;
+$linkColorHover: lighten( $linkColor, 20% );
+$selectionBackgroundColor: rgba(0, 0, 0, 0.99);
+
+@mixin bodyBackground() {
+    background-image: url('../../img/waaier.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: right bottom;
+}
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
+
+/*********************************************
+ * Some customizations that aren't available as option
+ *********************************************/
+
+// Visual Studio look
+.reveal pre code {
+  background: white;
+  color: black; }
+
+// Don't like the borders on images
+.reveal section img {
+  border: none; }
+
+// Left align headers and text
+h1, h2, h3, p {
+    text-align: left;
+}
+
+// Maximinze the space for lists
+ul, ol {
+    width: 100%;
+}
+
+// Logo -----------------------------------
+.reveal::after {
+    content: "";
+    background-image: url(../../img/logo.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    height: 5%;
+    width: 100%;
+}

@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Clean Code</title>
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/infosupport.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/vs.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+        <script>
+            function switchTemplate(css)
+            {
+                document.getElementById('theme').setAttribute('href','css/theme/' + css);
+            }
+        </script>
+
+
+        <!--Add support for earlier versions of Internet Explorer -->
+	    <!--[if lt IE 9]>
+	    <script src="lib/js/html5shiv.js"></script>
+	    <![endif]-->
+
+        <style>
+          .reveal .slides > section p {
+                text-align: center;
+            }
+
+          .reveal .slides > section .left {
+              float:left;
+              width:50%;
+          }
+          .reveal .slides > section .right {
+              float:right;
+              width:50%;
+          }
+        </style>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+        <link rel="stylesheet" href="plugin/d3js/tessellation.css">
+	</head>
+
+	<body>
+		<div class="reveal">
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+                <section>
+                    <h1>Clean Code</h1>
+                    <img src="img/code_quality.png" />
+                </section>
+
+                <section>
+                    <pre>
+                        <code data-trim>
+private List&lt;List&lt;String&gt;&gt; splitPaymentIds(List&lt;String&gt; paymentIds) {
+  if(paymentIds.size() &lt;= 1000) { <span class="fragment" data-fragment-index="0" style="color: #008000;font-weight: bold;"><-- Why 1000?</span>
+    return Arrays.asList(paymentIds);
+  } else {
+    int parts = (paymentIds.size() / 1000) + 1;<span class="fragment" data-fragment-index="1" style="color: #008000;font-weight: bold;""><-- Why + 1?</span>
+    List&lt;List&lt;String&gt;&gt; paymentIdsParts = new ArrayList&lt;&gt;(parts);
+    for(int i = 0; i &lt; parts; i++) {
+      int start = i * 1000;
+      int end = (i + 1) * 1000;
+
+      if((i + 1) == parts) {<span class="fragment" data-fragment-index="2" style="color: #008000;font-weight: bold;""><-- What does the equation say?</span>
+        end = paymentIds.size();
+      }
+
+      paymentIdsParts.add(paymentIds.subList(start, end));
+    }
+
+    return paymentIdsParts;
+  }
+}
+                        </code>
+                    </pre>
+                </section>
+
+                <section>
+                    <img src="img/my_code_annotated.png" />
+                </section>
+
+                <section>
+                    <img src="img/unella.jpg" />
+                    <h2>Shame</h2>
+                </section>
+
+                <section>
+                    <h3>Writing clean code is hard </h3>
+
+                    <h3 class="fragment" data-fragment-index="2">So why do it?</h3>
+                </section>
+
+                <section>
+                    <img src="img/productivity_vs_time_no_labels.png" />
+                </section>
+
+                <section>
+                    <img src="img/productivity_vs_time.png" />
+                </section>
+
+                <section style="height: 100%;" data-background-image="img/broken_window.jpg">
+                    <h1 style="color: white;">Broken Window Theory</h1>
+                </section>
+
+                <section style="height:100%;">
+                    <img src="img/clean_code_cover.jpg" style="height:90%;"/>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>Meaningful Names</h1>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code data-trim data-noescape>
+$d = 0; <span class="fragment" data-fragment-index="1">// Aantal dagen</span>
+                            </code>
+                        </pre>
+                        <p class="fragment" data-fragment-index="2">If a name requires a comment, then the name does not reveal its intent.</p>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+public function getThem($theList) {
+    $list1 = array();
+    for($theList as $x) {
+        if($x == 4) {
+            array_push($list1, $x);
+        }
+    }
+    return $list1;
+}
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+public function getFlaggedCells($board) {
+    $flaggedCells = array();
+    for($board as $cell) {
+        if($cell == FLAGGED_CELL) {
+            array_push($flaggedCells, $cell);
+        }
+    }
+    return $flaggedCells;
+}
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+class DtaRcrd102 {
+    private $genymdhms;
+    private $modymdhms;
+}
+
+                                <span class="fragment" data-fragment-index="1">
+class Customer {
+    private $generationTimestamp;
+    private $modificationTimestamp;
+}
+                                </span>
+                            </code>
+                        </pre>
+                        <p class="fragment" data-fragment-index="2">Use pronouncable names</p>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+$l = 0;
+$O = $l;
+if($O == 0)
+    $O = 1;
+else
+    $O = 0;
+                            </code>
+                        </pre>
+                        <p class="fragment" data-fragment-index="1">Avoid disinformation</p>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+$phoneString = 'Some string';
+$s_phone = 'Some string';
+
+interface IShape {
+    public function getSize();
+}
+                            </code>
+                        </pre>
+                        <p class="fragment" data-fragment-index="1">Avoid encodings</p>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>Functions</h1>
+                    </section>
+
+                    <section>
+                        <pre><code>
+private List&lt;List&lt;String&gt;&gt; splitPaymentIds(List&lt;String&gt; paymentIds) {
+  if(paymentIds.size() &lt;= 1000) {
+    return Arrays.asList(paymentIds);
+  } else {
+    int parts = (paymentIds.size() / 1000) + 1;
+    List&lt;List&lt;String&gt;&gt; paymentIdsParts = new ArrayList&lt;&gt;(parts);
+    for(int i = 0; i &lt; parts; i++) {
+      int start = i * 1000;
+      int end = (i + 1) * 1000;
+
+      if((i + 1) == parts) {
+        end = paymentIds.size();
+      }
+
+      paymentIdsParts.add(paymentIds.subList(start, end));
+    }
+
+    return paymentIdsParts;
+  }
+}
+                        </code></pre>
+                        <p class="fragment" data-fragment-index="1">Keep functions small</p>
+                    </section>
+
+                    <section>
+                        <pre><code data-trim>
+private List&lt;List&lt;String&gt;&gt; splitPaymentIds(List&lt;String&gt; paymentIds) {
+  if(paymentIds.size() &lt;= 1000) {
+    return Arrays.asList(paymentIds);
+  } else {
+    int parts = (paymentIds.size() / 1000) + 1; <span class="fragment" data-fragment-index="0" style="color: #008000;font-weight: bold;"><-- Calculate parts</span>
+    List&lt;List&lt;String&gt;&gt; paymentIdsParts = new ArrayList&lt;&gt;(parts);
+    for(int i = 0; i &lt; parts; i++) { <span class="fragment" data-fragment-index="0" style="color: #008000;font-weight: bold;"><-- Split up list</span>
+      int start = i * 1000;
+      int end = (i + 1) * 1000;
+
+      if((i + 1) == parts) {<span class="fragment" data-fragment-index="0" style="color: #008000;font-weight: bold;"><-- Determine if its the last item</span>
+        end = paymentIds.size();
+      }
+
+      paymentIdsParts.add(paymentIds.subList(start, end));<span class="fragment" data-fragment-index="0" style="color: #008000;font-weight: bold;"><-- Storing sub-list</span>
+    }
+
+    return paymentIdsParts;
+  }
+}
+                        </code></pre>
+                        <p>Functions should do one thing. They should to it well. They should do it only.</p>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+public function calculatePay($employee) {
+    switch ($employee.type) {
+        case COMMISSIONED:
+            return calculateCommissionedPay($employee);
+        case HOURLY:
+            return calculateHourlyPay($employee);
+        case SALARIED:
+            return calculateSalariedPay($employee);
+        default:
+            throw new someException();
+    }
+}
+                            </code>
+                        </pre>
+                        <p class="fragment">Prefer polymorphism to If/Else or Switch/Case</p>
+                        <span class="fragment" data-fragment-index="0">Large</span>
+                        <span class="fragment" data-fragment-index="1">, violates Single Responsibility Pattern</span>
+                        <span class="fragment" data-fragment-index="2">, violates Open Closed Pattern</span>
+                        <span class="fragment" data-fragment-index="3">, duplication</span>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+function niladic  () {}
+function monadic  ($var1) {}
+function dyadic   ($var1, $var2) {}
+function triadic  ($var1, $var2, $var3) {}
+function polyadic ($var1, $var2, $var3, $var....) {}
+                            </code>
+                        </pre>
+                        <p class="fragment" data-fragment-index="0">Polyadic functions require special justification - and then shouldn't be used anyway</p>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+render(true);
+<span class="fragment" data-fragment-index="0">
+renderWithShadows();
+renderWithoutShadows();</span>
+                            </code>
+                        </pre>
+                        <p class="fragment" data-fragment-index="1">Niladic functions are the easiest to reason about</p>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+function removeNegatives($array) {
+    for($index = 0; $index < count($array); $index++) {
+        if($array[$index] < 0) {
+            unset($array[$index]);
+        }
+    }
+}
+
+$array = array(2, -3, 4, 5);
+removeNegatives($array);
+echo $array; // 2, 4, 5
+                            </code>
+                        </pre>
+                        <p class="fragment" data-fragment-index="1">Should not have side effects!</p>
+                        <aside class="notes">
+                           <ul>
+                               <li>easier to reason about the correctness </li>
+                               <li>easy to compose</li>
+                               <li>makes certain optimisations possible</li>
+                               <li>Easier to parallelise</li>
+                           </ul>
+                        </aside>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+<span class="fragment" data-fragment-index="1">function set($key, $value) {
+    /** execute some logic **/
+
+    return $succes;
+}</span>
+
+if(set(1, 'a')) {
+    echo 'We got here!';
+}
+                            </code>
+                        </pre>
+                        <p class="fragment" data-fragment-index="2">CQS - Command Query Separation</p>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+if(keyExists(1)) {
+    setKeyValue(1, 'a');
+}
+                            </code>
+                        </pre>
+                        <p>CQS - Command Query Separation</p>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+if(deletePage(page) == E_OK) {
+    if(registry.deleteReference(page.name) == E_OK) {
+        if(configKeys.deleteKey(page.name.makeKey()) == E_OK) {
+            logger.log("page deleted!");
+        } else {
+            logger.log("configKey not deleted");
+        }
+    } else {
+        logger.log("registry entry not deleted");
+    }
+} else {
+    logger.log("page not deleted");
+}
+                            </code>
+                        </pre>
+                        <p class="fragment" data-fragment-index="0">Prefer exceptions to error codes</p>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+try {
+    deletePage(page);
+    registry.deleteReference(page.name);
+    configKeys.deleteKey(page.name.makeKey());
+} catch ($exception) {
+    logger.log($exception.getMessage());
+}
+                            </code>
+                        </pre>
+                        <p >Prefer exceptions to error codes</p>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+function registerItem($item) {
+    if($item != null) {
+        $registry = $store.getItemRegistry();
+        if($registry != null) {
+            $existing = registry.getItem($item.getID());
+            if(existing != null) {
+                existing.register(item);
+            }
+        }
+    }
+}
+                            </code>
+                        </pre>
+                        <p class="fragment">Null is the root of all evil</p>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+$employeeList = getEmployees(); // Returns null
+if($employeeList != null) {
+    foreach($employeeList as $employee) {
+        // Do something
+    }
+}
+
+
+<span class="fragment">
+$employeeList = getEmployees(); // Returns empty list
+foreach($employeeList as $employee) {
+    // Do something
+}</span>
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        Dijkstra: a function should have <b>one</b> entry and <b>one</b> exit.
+
+                        <pre>
+                            <code>
+private List&lt;List&lt;String&gt;&gt; splitPaymentIds(List&lt;String&gt; paymentIds) {
+  if(paymentIds.size() &lt;= 1000) {
+    return Arrays.asList(paymentIds); <strong>// Exit One</strong>
+  } else {
+    int parts = (paymentIds.size() / 1000) + 1; <span class="fragment" data-fragment-index="0" style="color: #008000;font-weight: bold;"><-- Calculate parts</span>
+    List&lt;List&lt;String&gt;&gt; paymentIdsParts = new ArrayList&lt;&gt;(parts);
+    for(int i = 0; i &lt; parts; i++) { <span class="fragment" data-fragment-index="0" style="color: #008000;font-weight: bold;"><-- Split up list</span>
+      // collapsed for clarity
+    }
+
+    return paymentIdsParts; <strong>// Exit Two</strong>
+  }
+}
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h2 class="fragment" data-fragment-index="0">NEVER USE GOTO</h2>
+                        <img src="img/goto.png" />
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>Comments</h1>
+
+                        <img src="img/useless_comment.png" />
+                    </section>
+
+                    <section>
+                        <h2>What is a bad comment?</h2>
+
+                        <h2 class="fragment" data-fragment-index="0">What is a good comment?</h2>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code data-trim>
+public function loadSettings() {
+    try {
+        loadProperties.load('SomeFile.prop');
+    } catch (IOException e) {
+        // No properties files means all default are loaded
+    }
+}
+                            </code>
+                        </pre>
+                        <p class="fragment" data-fragment-index="1">Mumbling</p>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+/**
+ * Class the represents a counter
+ **/
+class Counter {
+
+    /**
+     * The internal representation of the count
+     **/
+    private $count = 0
+
+    /**
+     * Return the count
+     * @return the count
+     **/
+    public function getCount() {
+        return $count;
+    }
+}
+                            </code>
+                        </pre>
+                        <p class="fragment" data-fragment-index="1">Avoid redundant comments</p>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+/**
+* Added by Bob
+* --------
+* 06-Jul-2016 : Wrote first version
+* 07-Jul-2016 : Added getCount function
+* 08-Jul-2016 : Refactored $count to be a long instead of an int
+**/
+class Counter {
+
+    private $count = 0
+
+    public function getCount() {
+        return $count;
+    }
+}
+                            </code>
+                        </pre>
+                        <p class="fragment" data-fragment-index="1">We have source control for this</p>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+function displayResult() {
+    $result = doSomeCalculation();
+    //result = result / 200;
+    //result = result + someValue();
+    return $result;
+}
+                            </code>
+                        </pre>
+                        <p class="fragment" data-fragment-index="1">Always remove commented out code</p>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+private List&lt;List&lt;String&gt;&gt; splitPaymentIds(List&lt;String&gt; paymentIds) {
+  if(paymentIds.size() &lt;= 1000) {
+    return Arrays.asList(paymentIds);
+  } else {
+    <span class="fragment current-visible">int parts = (paymentIds.size() / 1000) + 1; // Calculate amount of parts</span>
+    <span class=" fragment">int parts = calculateAmountOfParts(paymentIds);</span>
+    List&lt;List&lt;String&gt;&gt; paymentIdsParts = new ArrayList&lt;&gt;(parts);
+    for(int i = 0; i &lt; parts; i++) {
+      // collapsed for clarity
+    }
+
+    return paymentIdsParts;
+  }
+}
+                            </code>
+                        </pre>
+                        <p class="fragment">Don't use a Comment when you can use a function or variable</p>
+                    </section>
+
+                    <section>
+                        <h3>Don't comment bad code - rewrite it.</h3>
+                    </section>
+                </section>
+
+                <section>
+                    <h1>Formatting</h1>
+                    <p class="fragment">Choose a style and stick with it</p>
+                </section>
+
+                <section>
+                    <section data-background-image="img/kiss.jpg">
+                        <h1 style="color:white;">KISS</h1>
+                    </section>
+
+                    <section>
+                        <h2>Keep It Simply Stupid</h2>
+                        <p class="fragment">Your code should not be a Rube Goldberg machine</p>
+                    </section>
+
+                    <section>
+                        <h2>YAGNI</h2>
+                        <p class="fragment">You Aint Gonna Need It</p>
+                    </section>
+
+                    <section>
+                        <h2>Don't let your code rot</h2>
+                        <p class="fragment">Remove code that is no longer used</p>
+                    </section>
+
+                    <section>
+                        <h2>Boy Scout Rule</h2>
+                        <p class="fragment">Leave the campground cleaner than you found it</p>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>First implementations are ugly</h2>
+                        <p class="fragment">So we need to refactor</p>
+                    </section>
+
+                    <section>
+                        <h2>How to enable refactoring?</h2>
+                        <h1 class="fragment">Tests!!</h1>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Summary</h2>
+                    </section>
+
+                    <section>
+                        <h2>Names</h2>
+                        <ul>
+                            <li>Show intent</li>
+                            <li>Are pronouncable</li>
+                            <li>Do not contain disinformation or type encodings</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Functions</h2>
+                        <ul>
+                            <li>Are small</li>
+                            <li>Do one thing and do it well</li>
+                            <li>Have 1, 2 or 3 arguments</li>
+                            <li>Are pure (do no have side effects)</li>
+                            <li>Throw exceptions instead of returning error codes</li>
+                            <li>Do not return null</li>
+                            <li>Have one entry and one exit point</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Comments</h2>
+                        <ul>
+                            <li>Add value</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Revisited</h2>
+                        <pre>
+                            <code>
+int parts = calculateAmountOfParts(source);
+List&lt;List&lt;String&gt;&gt; result = partition(source, parts);
+
+private List&lt;List&lt;String&gt;&gt; partition(List&lt;String&gt; source,
+                                                    int amountOfParts) {
+    List&lt;List&lt;String&gt;&gt; parts = new ArrayList&lt;&gt;(amountOfParts);
+    for(int partIndex = 0; partIndex &lt; amountOfParts; partIndex++) {
+        Range range = calculateRange(partIndex, amountOfParts);
+
+        List&lt;String&gt; part = source.subList(range.start, range.end);
+        parts.add(part);
+    }
+
+    return parts;
+}
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h2>Revisited 2</h2>
+                        <pre>
+                            <code>
+int parts = calculateAmountOfParts(source);
+List&lt;List&lt;String&gt;&gt; result = ListUtils.partition(source, parts);
+                            </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <h2>Thanks!</h2>
+                        <p>Slides available at <a href="https://github.com/bobvdb/Workshop-2016-CleanCode">https://github.com/bobvdb</a></p>
+                    </section>
+                </section>
+            </div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+        <script src="plugin/d3js/d3.v3.min.js"></script>
+        <script src="plugin/d3js/tessellation.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: 'none', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.min.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+            Reveal.addEventListener( 'ready', function( event ) {
+                tesselationInit();
+            } );
+		</script>
+	</body>
+</html>
