@@ -261,6 +261,12 @@ interface IShape {
                         </pre>
                         <p class="fragment" data-fragment-index="1">Avoid encodings</p>
                     </section>
+
+                    <section>
+                        <h2>One word per concept</h2>
+                        <p class="fragment">Fetch(), get() and retrieve are the same</p>
+                        <p class="fragment">Also with class names</p>
+                    </section>
                 </section>
 
                 <section>
@@ -372,17 +378,26 @@ renderWithoutShadows();</span>
                     <section>
                         <pre>
                             <code>
-function removeNegatives($array) {
-    for($index = 0; $index < count($array); $index++) {
-        if($array[$index] < 0) {
-            unset($array[$index]);
+ function makeCircle($x, $y, $radius);
+ <span class="fragment">function makeCircle($point, $radius);</span>
+                            </code>
+                        </pre>
+                        <p class="fragment">Use argument objects</p>
+                    </section>
+
+                    <section>
+                        <pre>
+                            <code>
+public function checkPassword($username, $password) {
+    $user = findUser($username);
+    if($user != null) {
+        if($user->password == $password) {
+            Session.initialize(); <span class="fragment" data-fragment-index="0">// This is bad</span>
+            return true;
         }
     }
+    return false;
 }
-
-$array = array(2, -3, 4, 5);
-removeNegatives($array);
-echo $array; // 2, 4, 5
                             </code>
                         </pre>
                         <p class="fragment" data-fragment-index="1">Should not have side effects!</p>
@@ -539,6 +554,18 @@ private List&lt;List&lt;String&gt;&gt; splitPaymentIds(List&lt;String&gt; paymen
                         <h2>What is a bad comment?</h2>
 
                         <h2 class="fragment" data-fragment-index="0">What is a good comment?</h2>
+                    </section>
+
+                    <section>
+                        <h2>Good comments</h2>
+                        <ul>
+                            <li>Legal comments</li>
+                            <li>Informative comments</li>
+                            <li>Explanation of intent</li>
+                            <li>Clarification</li>
+                            <li>Amplifications</li>
+                            <li>TODO?</li>
+                        </ul>
                     </section>
 
                     <section>
